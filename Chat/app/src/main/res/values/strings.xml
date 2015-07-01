@@ -8,7 +8,10 @@
     <string name="name">Name</string>
     <string name="password">Passwort</string>
     <string name="password_confirmation">Passwort bestätigen</string>
-    <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_register">Registireren</string>
     <string name="register">Registrieren</string>
     <string name="or">oder</string>
+    <string name="title_activity_show_message">Nachricht anzeigen</string>
+    <string name="title_activity_chat">ChatClient</string>
+    <string name="title_activity_new_message">Neue Nachricht</string>
 </resources>

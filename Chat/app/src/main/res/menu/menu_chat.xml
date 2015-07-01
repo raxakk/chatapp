@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context="de.fh_muenster.chat.ChatActivity">
+
+    <item
+        android:id="@+id/action_newMessage"
+        android:title="Neue Nachricht"
+        android:orderInCategory="100"
+        android:onClick="clickNewMessage" app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_Logout"
+        android:title="Logout"
+        android:orderInCategory="100"
+        android:onClick="clickLogout" app:showAsAction="never" />
+
+</menu>

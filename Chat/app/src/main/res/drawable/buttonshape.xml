@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+xmlns:android="http://schemas.android.com/apk/res/android">
+
+<item android:state_pressed="true" >
+    <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle" >
+        <corners
+            android:radius="4dp"
+            />
+        <gradient
+            android:angle="45"
+            android:centerX="35%"
+            android:centerColor="#8501a6ff"
+            android:startColor="#8501a6ff"
+            android:endColor="#8501a6ff"
+            android:type="linear"
+            />
+        <padding
+            android:left="0dp"
+            android:top="0dp"
+            android:right="0dp"
+            android:bottom="0dp"
+            />
+        <size
+            android:width="270dp"
+            android:height="45dp"
+            />
+    </shape>
+</item>
+
+<item android:state_focused="true" >
+    <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle" >
+        <corners
+            android:radius="4dp"
+            />
+        <gradient
+            android:angle="45"
+            android:centerX="35%"
+            android:centerColor="#5901a6ff"
+            android:startColor="#5901a6ff"
+            android:endColor="#5901a6ff"
+            android:type="linear"
+            />
+        <padding
+            android:left="0dp"
+            android:top="0dp"
+            android:right="0dp"
+            android:bottom="0dp"
+            />
+        <size
+            android:width="270dp"
+            android:height="45dp"
+            />
+    </shape>
+</item>
+
+<item>
+    <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle" >
+        <corners
+            android:radius="4dp"
+            />
+        <gradient
+            android:angle="45"
+            android:centerX="35%"
+            android:centerColor="#01a6ff"
+            android:startColor="#01a6ff"
+            android:endColor="#01a6ff"
+            android:type="linear"
+            />
+        <padding
+            android:left="0dp"
+            android:top="0dp"
+            android:right="0dp"
+            android:bottom="0dp"
+            />
+        <size
+            android:width="270dp"
+            android:height="45dp"
+            />
+    </shape>
+</item>
+</selector>

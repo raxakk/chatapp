@@ -14,8 +14,9 @@
         android:ems="10"
         android:id="@+id/txtName"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/txtPasswordConfirmation"
-        android:layout_marginTop="101dp" />
+        android:layout_marginTop="101dp"
+        android:layout_alignStart="@+id/btnRegister"
+        android:layout_alignEnd="@+id/btnRegister" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -24,9 +25,9 @@
         android:hint="@string/password"
         android:ems="10"
         android:id="@+id/txtPassword"
-        android:layout_below="@+id/txtName"
+        android:layout_centerVertical="true"
         android:layout_alignStart="@+id/txtName"
-        android:layout_marginTop="75dp" />
+        android:layout_alignEnd="@+id/txtName" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -35,11 +36,13 @@
         android:ems="10"
         android:hint="@string/password_confirmation"
         android:id="@+id/txtPasswordConfirmation"
+        android:layout_marginTop="50dp"
         android:layout_below="@+id/txtPassword"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="85dp" />
+        android:layout_alignStart="@+id/txtPassword"
+        android:layout_alignEnd="@+id/btnRegister" />
 
     <Button
+        style="@style/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/register"

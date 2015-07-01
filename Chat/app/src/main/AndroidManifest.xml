@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.fh_muenster.chat" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".ChatApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -23,6 +26,21 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.fh_muenster.chat.LoginActivity" />
+        </activity>
+        <activity
+            android:name=".ShowMessageActivity"
+            android:label="@string/title_activity_show_message"
+            android:parentActivityName=".ChatActivity" >
+        </activity>
+        <activity
+            android:name=".ChatActivity"
+            android:label="@string/title_activity_chat"
+            android:parentActivityName=".LoginActivity" >
+        </activity>
+        <activity
+            android:name=".NewMessageActivity"
+            android:label="@string/title_activity_new_message"
+            android:parentActivityName=".ChatActivity" >
         </activity>
     </application>
 

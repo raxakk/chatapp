@@ -1,0 +1,50 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="de.fh_muenster.chat.NewMessageActivity">
+
+    <EditText
+        android:inputType="textMultiLine"
+        android:lines="8"
+        android:minLines="8"
+        android:gravity="top|left"
+        android:maxLines="15"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:scrollbars="vertical"
+        android:id="@+id/txtNachricht"
+        android:clickable="false"
+        android:hint="Nachrichtentext"
+        android:background="@android:drawable/editbox_dropdown_light_frame"
+        android:maxLength="1000"
+        android:layout_below="@+id/txtEmpfaenger"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="33dp" />
+
+    <Button
+        style="@style/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Senden"
+        android:id="@+id/buttonSend"
+        android:onClick="clickToSend"
+        android:layout_below="@+id/txtNachricht"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Empfänger"
+        android:ems="10"
+        android:id="@+id/txtEmpfaenger"
+        android:layout_marginTop="41dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/txtNachricht" />
+
+</RelativeLayout>
