@@ -65,8 +65,7 @@ public class Security {
         try {
             cipher.init(Cipher.ENCRYPT_MODE, key);
         } catch (InvalidKeyException e) {
-            return null;
-            //e.printStackTrace();
+            e.printStackTrace();
         }
         byte[] privkey_user_enc = null;
         try {
@@ -250,7 +249,6 @@ public class Security {
         try {
             c.init(Cipher.DECRYPT_MODE, publicKey);
         } catch (InvalidKeyException e) {
-//			return null;
             e.printStackTrace();
         }
         byte[] text_dec = null;
@@ -290,8 +288,7 @@ public class Security {
         try {
             c.init(Cipher.ENCRYPT_MODE, privKey);
         } catch (InvalidKeyException e) {
-            return null;
-            //e.printStackTrace();
+            e.printStackTrace();
         }
         byte[] text_enc = null;
         try {
@@ -343,6 +340,11 @@ public class Security {
         return text_dec;
     }
 
+    /**
+     * PublicKey in .pem Format erstellen
+     * @param publicKeyByte
+     * @return
+     */
     public String writePublicKey(byte[] publicKeyByte) {
         StringWriter writer = new StringWriter();
         PemWriter pemWriter = new PemWriter(writer);
@@ -367,6 +369,11 @@ public class Security {
         return writer.toString();
     }
 
+    /**
+     * Private Key in .pem Format erstellen
+     * @param privateKeyByte
+     * @return
+     */
     public String writePrivateKey(byte[] privateKeyByte) {
         StringWriter writer = new StringWriter();
         PemWriter pemWriter = new PemWriter(writer);

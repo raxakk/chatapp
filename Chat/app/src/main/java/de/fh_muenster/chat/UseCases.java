@@ -54,10 +54,8 @@ public class UseCases {
             return 98;
         }
 
-        //KeyPair bilden
+        //KeyPair bilden RSA
         KeyPairGenerator kpg = null;
-
-        //KeyPairGenerator erzeugen --> Algorithmus: RSA 2048
         try {
             kpg = KeyPairGenerator.getInstance("RSA");
         } catch (NoSuchAlgorithmException e) {
@@ -67,8 +65,6 @@ public class UseCases {
         byte bytes[] = new byte[20];
         securerandom.nextBytes(bytes);
         kpg.initialize(2048, securerandom);
-
-        //KeyPair erzeugen
         KeyPair kp = kpg.genKeyPair();
 
         //publickey und privatekey in Variablen speichern
@@ -77,7 +73,6 @@ public class UseCases {
         byte[] privateKeyByte = privkey_user.getEncoded();
         byte[] publicKeyByte = pubkey_user.getEncoded();
         String publickey = security.writePublicKey(publicKeyByte);
-        String privatekey = security.writePrivateKey(privateKeyByte);
         String publickey64 = Base64.toBase64String(publickey.getBytes());
 
         //privkey_user zu privkey_user_enc verschlüsseln
@@ -88,7 +83,6 @@ public class UseCases {
 
         //Übergabestring erstellen
         String value = "{\"id\":\"" + name + "\",\"salt_masterkey\":\"" + Hex.toHexString(salt_masterkey) + "\",\"pubkey_user\":\"" + publickey64 + "\",\"privkey_user_enc\":\"" + Hex.toHexString(privkey_user_enc) + "\"}";
-        Log.d(TAG, "Übergabe: " + value);
 
         //Verbindung zum Server herstellen
         String success = "";
@@ -120,13 +114,16 @@ public class UseCases {
 
         //Verbindung zum Server herstellen
         String value = "{\"id\":\"" + name + "\"}";
-        Log.d(TAG, "Übergabe: " + value);
         String success = "";
         try {
             success = httpConnection.sendGetWithBody("/User", value);
         } catch (Exception e) {
             return 99;
         }
+
+        //Logausgabe
+        Log.d(TAG, "Übergabestring: " + value);
+        Log.d(TAG, "Rückgabestring: " + success);
 
         //String in JSON umwandeln und Daten extrahieren
         JsonHandler jHandler = new JsonHandler();
@@ -196,6 +193,10 @@ public class UseCases {
         } catch (Exception e) {
             return "99";
         }
+
+        //Logausgabe
+        Log.d(TAG, "Übergabestring: " + value);
+        Log.d(TAG, "Rückgabestring: " + success);
 
         if (jHandler.extractString(jHandler.convert(success), "pubkey_recipient").equals("")) {
             String status = jHandler.extractString(jHandler.convert(success), "fehlercode");
@@ -336,8 +337,8 @@ public class UseCases {
             }
 
             //Logausgabe
-//			Log.d(TAG, "Übergabestring: " + value);
-//			Log.d(TAG, "Rückgabestring: " + success);
+			Log.d(TAG, "Übergabestring: " + value);
+			Log.d(TAG, "Rückgabestring: " + success);
 
             //Rückgabe eines Statuscodes
             if(!success.equals("")) {
@@ -347,7 +348,11 @@ public class UseCases {
         }
     }
 
-    //Nachrichtenabruf
+    /**
+     * Nachrichtenabruf
+     * @param name Name
+     * @return Nachrichtenliste
+     */
     public ArrayList<String[]> receiveMessage(String name) {
         //Unix-Zeit
         Long unixTime = System.currentTimeMillis() / 1000L;
@@ -356,7 +361,6 @@ public class UseCases {
         //Id_enc bilden
         //Bildung von MD5 Hash für Id_enc
         String text2 = name + timestamp;
-        Log.d(TAG, "text2: " + text2);
         byte [] text2Bytes = text2.getBytes();
         MessageDigest md2 = null;
         try {
@@ -383,7 +387,6 @@ public class UseCases {
         String success = "";
         JsonHandler jHandler = new JsonHandler();
         String value = "{\"id\":\"" + name + "\",\"timestamp\":\"" + timestamp + "\",\"id_enc\":\"" + Base64.toBase64String(id_enc) + "\"}";
-        Log.d(TAG, "Übergabe: " + value);
         String url = "/Msg";
         HttpConnection http = new HttpConnection();
         try {
@@ -391,11 +394,15 @@ public class UseCases {
         } catch (IOException e1) {
             return null;
         }
+        //Logausgabe
+        Log.d(TAG, "Übergabestring: " + value);
+        Log.d(TAG, "Rückgabestring: " + success);
+
         JSONObject json = jHandler.convert(success);
 
+        //Nachrichtenanzahl ermitteln
         int anzahl = jHandler.extractInt(jHandler.convert(success), "AnzahlNachrichten");
         String fehlercode = jHandler.extractString(jHandler.convert(success), "fehlercode");
-        Log.d(TAG, "FEHLERCODE: " + fehlercode);
         if(!fehlercode.equals("1")) {
             return null;
         }
@@ -406,10 +413,10 @@ public class UseCases {
                 nachrichtenList.add(nachrichten.getJSONObject(i));
             }
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
+        //Messages in ArrayList speichern
         ArrayList<String[]> messages = new ArrayList<>();
 
         for(int i=0; i<nachrichtenList.size(); i++) {
@@ -418,7 +425,6 @@ public class UseCases {
             try {
                 innererUmschlag = nachrichtenList.get(i).getJSONObject("Innerer_Umschlag");
             } catch (JSONException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             String status = getPubkey(jHandler.extractString(innererUmschlag,"Sender"));
@@ -438,11 +444,13 @@ public class UseCases {
                 try {
                     md = MessageDigest.getInstance("SHA-256");
                 } catch (NoSuchAlgorithmException e) {
-                    return null;
+                    e.printStackTrace();
                 }
                 md.update(textBytes); // Change this to "UTF-16" if needed
                 byte[] sig_recipient = md.digest();
                 String sig_recipientHex = Hex.toHexString(sig_recipient).toLowerCase();
+
+                //sig_recipient überprüfen
                 if(!sig_recipientHex.equals(sig_recipientString)) {
                     return null;
                 }
@@ -450,6 +458,7 @@ public class UseCases {
                     //key_recipient_enc entschlüsseln
                     byte[] key_recipient = security.decryptRSAPrivKey(myApp.getPrivkey_user(), Base64.decode(jHandler.extractString(innererUmschlag,"key_recipient_enc")));
 
+                    //Cipher entschlüsseln
                     byte[] nachricht = security.decryptAESCBC(Base64.decode(jHandler.extractString(innererUmschlag,"Cipher")), key_recipient, Base64.decode(jHandler.extractString(innererUmschlag, "Iv")));
                     String message[] = {jHandler.extractString(innererUmschlag,"Sender"),new String(nachricht)};
                     messages.add(message);
@@ -459,11 +468,4 @@ public class UseCases {
 
         return messages;
     }
-
-    //User anzeigen
-    public ArrayList<String> showUsers() {
-        ArrayList<String> x = new ArrayList<>();
-        return x;
-    }
-
 }

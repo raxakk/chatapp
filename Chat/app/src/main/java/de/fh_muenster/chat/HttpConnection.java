@@ -1,4 +1,6 @@
 package de.fh_muenster.chat;
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -13,8 +15,9 @@ public class HttpConnection {
     private final String USER_AGENT = "Mozilla/5.0";
     private final String SERVER = "http://10.60.70.2";
     private final String SERVER1 = "10.60.70.2";
+    private static final String TAG = HttpConnection.class.getName();
 
-    // HTTP GET request
+    // HTTP GET request (Wird für diesen Server nicht benötigt)
     public String sendGet(String param_url) throws Exception {
 
         String url = SERVER + param_url;
@@ -47,7 +50,13 @@ public class HttpConnection {
         return response.toString();
     }
 
-    // HTTP POST request
+    /**
+     * HTTP POST Request
+     * @param param_url
+     * @param param_body
+     * @return
+     * @throws Exception
+     */
     public String sendPost(String param_url, String param_body) throws Exception {
 
         String body = param_body;
@@ -57,11 +66,12 @@ public class HttpConnection {
 
         //add request header
         con.setRequestMethod( "POST" );
-        con.setDoInput( true );
-        con.setDoOutput( true );
-        con.setUseCaches( false );
-        con.setRequestProperty( "Content-Type","application/json" );
+        con.setDoInput(true);
+        con.setDoOutput(true);
+        con.setUseCaches(false);
+        con.setRequestProperty("Content-Type", "application/json");
         con.setRequestProperty( "Content-Length", String.valueOf(body.length()) );
+        Log.d(TAG, "SEND HTTP POST TO: " + url);
 
         // Send post request
         OutputStreamWriter writer = new OutputStreamWriter( con.getOutputStream() );
@@ -89,6 +99,13 @@ public class HttpConnection {
         return response.toString();
     }
 
+    /**
+     * Custom HTTP GET Request (mit Body)
+     * @param param_url
+     * @param value
+     * @return
+     * @throws IOException
+     */
     public String sendGetWithBody(String param_url, String value) throws IOException {
         String modifiedSentence;
         Socket clientSocket = new Socket(SERVER1, 80);
@@ -101,7 +118,7 @@ public class HttpConnection {
                         "\n" +
                         content
         );
-
+        Log.d(TAG, "SEND HTTP GET TO: " + SERVER1 + param_url);
         StringBuffer response = new StringBuffer();
 
         while ((modifiedSentence = inFromServer.readLine()) != null) {
